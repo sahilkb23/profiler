@@ -1,0 +1,35 @@
+#!/bin/sh -f
+#arg 1=input html file
+#arg 2=output file (C format)
+#arg 3=variable name
+
+
+dodebug()
+{
+    echo "$1"
+}
+
+nodebug()
+{
+    return 1
+}
+
+debug()
+{
+    nodebug "$1"
+}
+
+input_html=$1
+output_file=$2
+var_name=$3
+
+touch $output_file
+
+echo 'const char *'$var_name = '"\' >> $output_file
+cat $input_html | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | sed 's/$/\\n\\/g' >>$output_file
+echo '";' >> $output_file
+
+echo "Done converting html file to C"
+
+
+

@@ -1,0 +1,90 @@
+<html>
+<head>
+<style type="text/css">
+/* Remove default bullets */
+ul {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer; 
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg); 
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+}
+
+li{
+    white-space:nowrap;
+}
+</style>
+<script type="text/javascript">
+function onLoad()
+{
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+    
+    for (i = 0; i < toggler.length; i++) {
+      toggler[i].addEventListener("click", function() {
+        this.parentElement.querySelector(".nested").classList.toggle("active");
+        this.classList.toggle("caret-down");
+      });
+    }
+}
+
+function expandAll()
+{
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+    
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].parentElement.querySelector(".nested").classList.add("active");
+        toggler[i].classList.add("caret-down");
+    }
+}
+
+function collapseAll()
+{
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+    
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].parentElement.querySelector(".nested").classList.remove("active");
+        toggler[i].classList.remove("caret-down");
+    }
+}
+
+
+
+</script>
+</head>
+<body onload ="onLoad();">
+<h1>Profiler</h1>
+<h2>Function call tree, Line format: (Function time) (Function in-time) Function name [Total function calls = ]</h2>
+
+<input type="button" value="Expand All" onclick = "expandAll();">
+<input type="button" value="Collapse All" onclick = "collapseAll();">
+
